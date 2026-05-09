@@ -1,0 +1,30 @@
+services:
+  payment-service:
+    build: .
+    container_name: payment-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://payment-db:5432/payment_db
+      SPRING_DATASOURCE_USERNAME: payment_user
+      SPRING_DATASOURCE_PASSWORD: payment_pass
+      JWT_ISSUER: payment-service
+      JWT_SECRET: payment-service-development-secret-key-32
+      BOOKING_SERVICE_URL: http://booking-service:8081
+    depends_on:
+      - payment-db
+
+  payment-db:
+    image: postgres:16
+    container_name: payment-db
+    environment:
+      POSTGRES_DB: payment_db
+      POSTGRES_USER: payment_user
+      POSTGRES_PASSWORD: payment_pass
+    ports:
+      - "5434:5432"
+    volumes:
+      - payment-db-data:/var/lib/postgresql/data
+
+volumes:
+  payment-db-data:

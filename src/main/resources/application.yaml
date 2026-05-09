@@ -1,0 +1,37 @@
+server:
+  port: ${SERVER_PORT:8082}
+
+spring:
+  application:
+    name: payment-service
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5434/payment_db}
+    username: ${SPRING_DATASOURCE_USERNAME:payment_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:payment_pass}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+security:
+  jwt:
+    issuer: ${JWT_ISSUER:payment-service}
+    secret: ${JWT_SECRET:payment-service-development-secret-key-32}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+services:
+  booking:
+    base-url: ${BOOKING_SERVICE_URL:http://localhost:8081}
+    mock-enabled: ${BOOKING_SERVICE_MOCK_ENABLED:true}
