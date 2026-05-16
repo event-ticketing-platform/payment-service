@@ -31,6 +31,16 @@ public class GlobalExceptionHandler {
                 Map.of());
     }
 
+    @ExceptionHandler(StripeConfigurationException.class)
+    public ResponseEntity<ApiError> handleStripeConfiguration(StripeConfigurationException exception) {
+        return build(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage(), Map.of());
+    }
+
+    @ExceptionHandler(StripePaymentException.class)
+    public ResponseEntity<ApiError> handleStripePayment(StripePaymentException exception) {
+        return build(HttpStatus.BAD_GATEWAY, exception.getMessage(), Map.of());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new LinkedHashMap<>();

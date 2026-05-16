@@ -5,6 +5,12 @@ spring:
   application:
     name: payment-service
 
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5434/payment_db}
     username: ${SPRING_DATASOURCE_USERNAME:payment_user}
@@ -24,14 +30,19 @@ management:
 
 security:
   jwt:
-    issuer: ${JWT_ISSUER:payment-service}
-    secret: ${JWT_SECRET:payment-service-development-secret-key-32}
+    issuer: ${JWT_ISSUER:event-ticketing-gateway}
+    secret: ${JWT_SECRET:event-ticketing-development-secret-32}
 
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
-services:
-  booking:
-    base-url: ${BOOKING_SERVICE_URL:http://localhost:8081}
-    mock-enabled: ${BOOKING_SERVICE_MOCK_ENABLED:true}
+messaging:
+  exchanges:
+    payment-events: ${PAYMENT_EVENTS_EXCHANGE:payment-events}
+
+payments:
+  stripe:
+    secret-key: ${STRIPE_SECRET_KEY:}
+    publishable-key: ${STRIPE_PUBLISHABLE_KEY:}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:}

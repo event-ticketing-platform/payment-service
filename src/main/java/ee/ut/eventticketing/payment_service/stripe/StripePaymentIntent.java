@@ -1,0 +1,7 @@
+package ee.ut.eventticketing.payment_service.stripe;
+
+public record StripePaymentIntent(
+        String id,
+        String clientSecret,
+        String status) {
+}
